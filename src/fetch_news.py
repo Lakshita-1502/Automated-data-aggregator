@@ -1,19 +1,20 @@
-from dotenv import load_dotenv
 import os
 import requests
 
-load_dotenv()
+class fetch_news:
+    def __init__(self):
+        self.news_api=os.getenv("NEWS_API_KEY")
+        self.news_url=os.getenv("NEWS_URL")
 
-news_api=os.getenv("NEWS_API_KEY")
-news_url=os.getenv("NEWS_URL")
-params = {
-    "q": "India",
-    "apiKey": news_api,
-    "pageSize": 1
-}
+    def get_news(self):
+        params = {
+            "q": "India",
+            "apiKey": self.news_api,
+            "pageSize": 1
+        }
+        response=requests.get(self.news_url, params)
+        return response.json()
 
-response=requests.get(news_url, params)
-news_data=response.json()
-
-print(f"Title:- {news_data["articles"][0]["title"]}")
-print(f"Description:- {news_data["articles"][0]["description"]}")
+    def extract_news(self):
+        data=self.get_news()
+        return data["articles"][0]["title"]
