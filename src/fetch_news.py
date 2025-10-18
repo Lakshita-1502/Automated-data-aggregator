@@ -6,15 +6,15 @@ class fetch_news:
         self.news_api=os.getenv("NEWS_API_KEY")
         self.news_url=os.getenv("NEWS_URL")
 
-    def get_news(self):
+    def get_news(self, country):
         params = {
-            "q": "India",
+            "q": country,
             "apiKey": self.news_api,
             "pageSize": 1
         }
         response=requests.get(self.news_url, params)
         return response.json()
 
-    def extract_news(self):
-        data=self.get_news()
+    def extract_news(self, country):
+        data=self.get_news(country)
         return data["articles"][0]["title"]
