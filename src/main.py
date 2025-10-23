@@ -10,7 +10,10 @@ if __name__=="__main__":
     wf=fetch_weather()
     result=wf.get_weather(city)
     country=wf.get_country(city)
+    print(country)
+
     fn=fetch_news()
-    news=fn.extract_news(country)
+    news=fn.extract_news(country.lower())
+
     se=send_email()
     se.sending_email(result, city, news)

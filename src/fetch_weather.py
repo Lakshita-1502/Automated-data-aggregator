@@ -17,12 +17,13 @@ class fetch_weather:
         lat=coords_data[0]["lat"]
         long=coords_data[0]["lon"]
         weather_params={"lat":lat, "lon":long, "appid":self.api}
-        response=requests.get(self.weather_url, weather_params)
-        return response.json()
+        weather_data=requests.get(self.weather_url, weather_params)
+        return weather_data.json()
 
     def get_country(self, city):
-        country_data=self.lat_long_data(city)
-        return country_data[0]["state"]
+        country_data=self.fetch_data(city)
+        print(f"Country:- {country_data["sys"]["country"]}")
+        return country_data["sys"]["country"]
     
     def extract_data(self, data):
         weather_details={
@@ -30,9 +31,6 @@ class fetch_weather:
             "temp": data["main"]["temp"],
             "pressure": data["main"]["pressure"],
             "humidity": data["main"]["humidity"],
-            "visibility": data["visibility"],
-            "wind_speed": data["wind"]["speed"],
-            "cloudiness": data["clouds"]["all"]
         }
 
         if "rain" in data:

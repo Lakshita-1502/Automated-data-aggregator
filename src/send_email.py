@@ -10,8 +10,10 @@ class send_email:
         s=smtplib.SMTP('smtp.gmail.com', 587)
         s.starttls()
         s.login(self.email, self.password)
+        print("News fetched..")
         message=self.generate_msg(msg, city, news)
         s.sendmail(self.email, self.email, message)
+        print("Msg generated...")
         print("\nEmail sent successfully!!\n")
         s.quit()
 
@@ -22,14 +24,11 @@ class send_email:
         Temperature:- {msg["temp"]}
         Pressure:- {msg["pressure"]}
         Humidity:- {msg["humidity"]}
-        Visibility:- {msg["visibility"]}
-        Wind Speed:- {msg["wind_speed"]}
-        Cloudiness:- {msg["cloudiness"]}
         """
 
         if "rain" in msg:
-            str=str+f"""Rain:- {msg["rain"]}\n{news}\nThank You!!"""
-        else:
-            str=str+f"{news}\nThank You!!!"
-            
+            str=str+f"Rain:- {msg['rain']}\n"
+
+        str+=f"\nTop Headlines:- \n{news}\nThank You!!\n-Automated-data-aggregator"
+        print(str)
         return str
