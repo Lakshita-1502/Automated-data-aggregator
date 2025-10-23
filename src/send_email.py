@@ -11,21 +11,22 @@ class send_email:
         s.starttls()
         s.login(self.email, self.password)
         message=self.generate_msg(weather, city, news)
-        s.sendmail(self.email, self.email, message)
+        s.sendmail(self.email, self.email, message.encode('utf-8'))
         print("\nEmail sent successfully!!\n")
         s.quit()
 
     def generate_msg(self, weather, city, news):
         body=f"""
-        In {city} weather details are as follows:- 
-        Description:- {weather["description"]}
-        Temperature:- {weather["temp"]}
-        Pressure:- {weather["pressure"]}
-        Humidity:- {weather["humidity"]}
-        """
-
+In {city} weather details are as follows:- 
+Description:- {weather["description"]}
+Temperature:- {weather["temp"]}
+Pressure:- {weather["pressure"]}
+Humidity:- {weather["humidity"]}
+"""
         if "rain" in weather:
             body=body+f"Rain:- {weather['rain']}\n"
+        body+="Top headlines :- \n"
+        for title in news:
+            body+=f"Title:- {title}\n"
 
-        body+=f"\nTop Headlines:- \n{news}\nThank You!!\n-Automated-data-aggregator"
         return body

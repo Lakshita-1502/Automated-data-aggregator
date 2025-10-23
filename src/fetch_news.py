@@ -12,11 +12,14 @@ class fetch_news:
         params = {
             "q": news_country.name,
             "apiKey": self.news_api,
-            "pageSize": 1
+            "pageSize": 3
         }
         response=requests.get(self.news_url, params)
         return response.json()
 
     def extract_news(self, country):
         data=self.get_news(country)
-        return data["articles"][0]["title"]
+        news_data=[]
+        for i in range(3):
+            news_data.append(data["articles"][i]["title"])
+        return news_data
