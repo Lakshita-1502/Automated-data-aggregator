@@ -6,29 +6,26 @@ class send_email:
         self.email=os.getenv("EMAIL_USER")
         self.password=os.getenv("EMAIL_PASS")
 
-    def sending_email(self, msg, city, news):
+    def sending_email(self, weather, city, news):
         s=smtplib.SMTP('smtp.gmail.com', 587)
         s.starttls()
         s.login(self.email, self.password)
-        print("News fetched..")
-        message=self.generate_msg(msg, city, news)
+        message=self.generate_msg(weather, city, news)
         s.sendmail(self.email, self.email, message)
-        print("Msg generated...")
         print("\nEmail sent successfully!!\n")
         s.quit()
 
-    def generate_msg(self, msg, city, news):
-        str=f"""
+    def generate_msg(self, weather, city, news):
+        body=f"""
         In {city} weather details are as follows:- 
-        Description:- {msg["description"]}
-        Temperature:- {msg["temp"]}
-        Pressure:- {msg["pressure"]}
-        Humidity:- {msg["humidity"]}
+        Description:- {weather["description"]}
+        Temperature:- {weather["temp"]}
+        Pressure:- {weather["pressure"]}
+        Humidity:- {weather["humidity"]}
         """
 
-        if "rain" in msg:
-            str=str+f"Rain:- {msg['rain']}\n"
+        if "rain" in weather:
+            body=body+f"Rain:- {weather['rain']}\n"
 
-        str+=f"\nTop Headlines:- \n{news}\nThank You!!\n-Automated-data-aggregator"
-        print(str)
-        return str
+        body+=f"\nTop Headlines:- \n{news}\nThank You!!\n-Automated-data-aggregator"
+        return body

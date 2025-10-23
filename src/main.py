@@ -6,14 +6,15 @@ from fetch_news import fetch_news
 load_dotenv()
 
 if __name__=="__main__":
-    city=input("Enter the city name of whose you want the weather details:- ")
-    wf=fetch_weather()
-    result=wf.get_weather(city)
-    country=wf.get_country(city)
-    print(country)
+    city_name=input("Enter the city name of whose you want the weather details:- ")
+    weather=fetch_weather()
+    weather_data=weather.get_weather(city_name)
+    country_name=weather.get_country(city_name)
 
-    fn=fetch_news()
-    news=fn.extract_news(country.lower())
+    news=fetch_news()
+    news_data=news.extract_news(country_name)
 
-    se=send_email()
-    se.sending_email(result, city, news)
+    mail=send_email()
+    mail.sending_email(weather_data, city_name, news_data)
+
+    print("Thank you for using our service!!")

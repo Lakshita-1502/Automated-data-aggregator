@@ -8,9 +8,7 @@ class fetch_news:
         self.news_url=os.getenv("NEWS_URL")
 
     def get_news(self, country):
-        news_country=pycountry.countries.get(alpha_2=country.upper())
-        print(f"News country:- {pycountry.countries.get(alpha_2=country.upper())}")
-        print(f"News_country_name:- {news_country.name}")
+        news_country=pycountry.countries.get(alpha_2=country)
         params = {
             "q": news_country.name,
             "apiKey": self.news_api,
@@ -21,6 +19,4 @@ class fetch_news:
 
     def extract_news(self, country):
         data=self.get_news(country)
-        print(f"Extracted news country:- {country}")
-        print(f"Total articles:- {data["totalResults"]}")
         return data["articles"][0]["title"]
